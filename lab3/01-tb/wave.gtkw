@@ -1,0 +1,45 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Mon Apr  1 07:00:21 2024
+[*]
+[dumpfile] "/home/tanvippro/labkts/lab3/01-tb/wave.fst"
+[dumpfile_mtime] "Mon Apr  1 06:57:29 2024"
+[dumpfile_size] 1689
+[savefile] "/home/tanvippro/labkts/lab3/01-tb/wave.gtkw"
+[timestart] 51
+[size] 1920 961
+[pos] -1 -1
+*-4.568495 89 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[treeopen] TOP.top.
+[treeopen] TOP.top.dut.
+[sst_width] 297
+[signals_width] 298
+[sst_expanded] 1
+[sst_vpaned_height] 284
+@28
+TOP.top.dut.clk
+TOP.top.dut.key[1:0]
+TOP.top.dut.FIFOControl.fifo_rd
+TOP.top.dut.FIFOControl.fifo_wr
+@22
+TOP.top.dut.FIFOControl.rd_addr[4:0]
+@200
+-
+-
+@22
+TOP.top.dut.Memory.rd_addr_m[4:0]
+@24
+TOP.top.dut.Memory.data_m[23:0]
+@28
+TOP.top.dut.HEX0[6:0]
+@22
+TOP.top.dut.out[23:0]
+TOP.top.dut.HEX1[6:0]
+TOP.top.dut.HEX2[6:0]
+TOP.top.dut.HEX4[6:0]
+TOP.top.dut.HEX5[6:0]
+@28
+TOP.top.dut.sw
+[pattern_trace] 1
+[pattern_trace] 0

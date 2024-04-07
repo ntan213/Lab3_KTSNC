@@ -1,0 +1,7 @@
+../00-src/bcdtohex.sv
+../00-src/D_ff.sv
+../00-src/fifoctrl.sv
+../00-src/lfshr.sv
+../00-src/mem.sv
+../00-src/mux.sv
+../00-src/lab3.sv

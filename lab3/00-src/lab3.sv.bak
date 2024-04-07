@@ -1,0 +1,114 @@
+module lab3(
+    input logic clk, 
+    input logic rst, 
+    input logic [1:0] key,  // key1: write, key0 read
+    input logic sw, 
+    output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5
+);
+
+reg clkw,clkr;
+assign clkw = clk;
+assign clkr = clk;
+// clockdivider CLK05 (
+//     .clk (clk),
+//     .rst (rst),
+//     .clkn (clkw)
+// );
+
+// clockdivider CLK10 (
+//     .clk (clk),
+//     .rst (rst),
+//     .clkn (clkr)
+// );
+ 
+reg [23:0] wr_data;
+lfshr lfshr (
+    .clk(clkw),
+    .rst(rst),
+    .seed (24'b0),
+    .out (wr_data)
+);
+
+reg write,read;
+reg [4:0] wr_addr, rd_addr; 
+reg [5:0] fifo_len;
+/* verilator lint_off UNUSED */
+reg  fifo_full, fifo_empty, fifo_notempty;
+/* verilator lint_on UNUSED */
+fifoctrl FIFOControl (
+    .clkw (clkw),
+    .clkr (clkr),
+    .rst (rst), 
+    .fiford(key[0]),
+    .fifowr(key[1]),
+    .write (write),
+    .read(read),
+    .wraddr (wr_addr),
+    .rdaddr (rd_addr),
+    .fifolen (fifo_len), 
+    .fifofull (fifo_full),
+    .notempty(fifo_notempty)
+
+
+); 
+
+property async_rst_startup;
+@(posedge clk) rst |-> ##1 (wr_addr==1 && rd_addr == 1 && !fifo_notempty);
+endproperty
+
+
+reg [23:0] rd_data;
+mem Memory (
+    .clk (clkw),
+    .rst (rst), 
+    .wr_m (write),
+    .wr_data (wr_data),
+    .wr_addr_m (wr_addr),
+    .rd_addr_m (rd_addr),
+    .data_m (rd_data)
+);
+
+reg [23:0] data_o;
+D_ff Read_data (
+    .clk (clkr),
+    .rst (rst), 
+    .en (read),
+    .D(rd_data),
+    .Q(data_o)
+); 
+
+reg [23:0] out;
+mux Mux (
+    .a ({18'b0,fifo_len}),
+    .b (data_o),
+    .sel (sw),
+    .c (out)
+);
+bcdtohex HEX_5(
+.bcd     (out[23:20]),
+.segment (HEX5));
+
+bcdtohex HEX_4(
+.bcd     (out[19:16]),
+.segment (HEX4));
+
+bcdtohex HEX_3(
+.bcd     (out[15:12]),
+.segment (HEX3));
+
+bcdtohex HEX_2(
+.bcd     (out[11:8]),
+.segment (HEX2));
+
+bcdtohex HEX_1(
+.bcd     (out[7:4]),
+.segment (HEX1));
+
+bcdtohex HEX_0(
+.bcd     (out[3:0]),
+.segment (HEX0));
+
+	
+
+
+endmodule
